@@ -23,11 +23,12 @@ type OperationsParametersInterfaceMap = {
   [OperationsEnum.ROOT]: [number];
 };
 
-export interface ICalculator {
+export interface ICalculatorFunctions {
   calc<T extends OperationsEnum, K extends OperationsParametersInterfaceMap[T]>(operation: T, ...args: K): number;
   // calcFn<T extends OperationsEnum, K extends OperationsParametersInterfaceMap[T]>(operation: T): (...args: OperationInterface<T, K>) => number;
   calcFn<T extends OperationsEnum, K extends OperationsParametersInterfaceMap[T]>(operation: T): ICalculator[T];
-
+}
+export interface ICalculator extends ICalculatorFunctions {
   [OperationsEnum.ADD]: AddMethod;
   [OperationsEnum.SUBTRACT]: SubtractMethod;
   [OperationsEnum.MULTIPLY]: MultiplyMethod;
@@ -75,3 +76,13 @@ export class Calculator implements ICalculator {
   }
 
 }
+
+export class CalculatorFacade {
+  private readonly calculator: ICalculator;
+  public calc: ICalculator['calc']
+  constructor() {
+    this.calculator = new Calculator();
+    this.calc = this.calculator.calc;
+  }
+}
+export interface CalculatorMethods extends Omit<Calculator, 'add'>{};

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { PersonAddressOmmited, PersonOptional } from './person';
 import { CommonModule } from '@angular/common';
 import { RolesEnum } from './roles';
-import { Calculator, ICalculator, OperationsEnum } from './calculator';
+import { Calculator, ICalculator, OperationsEnum, CalculatorFacade, ICalculatorFunctions, CalculatorMethods } from './calculator';
 
 @Component({
   selector: 'app-root',
@@ -49,6 +49,12 @@ export class AppComponent {
   };
 
   calculator: ICalculator = new Calculator();
+  calculatorFacade: ICalculatorFunctions = new Calculator();
+  calculatorFacadeOmited: CalculatorMethods = new Calculator();
+
+
+
+
   resultadoSoma: number = this.calculator.calc(OperationsEnum.ADD, 1, 2);
   resultadoExponenciacao: number = this.calculator.calc(OperationsEnum.SQUARE, 9);
 
@@ -56,6 +62,7 @@ export class AppComponent {
   funcaoExponenciacao = this.calculator.calcFn(OperationsEnum.SQUARE);
 
   constructor() {
-    console.log('AppComponent constructor');
+    console.log(this.calculatorFacade.calc(OperationsEnum.ADD, 1, 2));
+    console.log(this.calculatorFacadeOmited.multiply(2, 3));
   }
 }
