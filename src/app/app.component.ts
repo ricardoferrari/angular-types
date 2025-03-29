@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 import { PersonAddressOmmited, PersonOptional } from './person';
 import { CommonModule } from '@angular/common';
 import { RolesEnum } from './roles';
-import { Calculator, ICalculator, OperationsEnum, CalculatorFacade, ICalculatorFunctions, CalculatorMethods } from './calculator';
+import { Calculator, ICalculator, OperationsEnum, ICalculatorFunctions, CalculatorMethods } from './calculator';
+import { HttpCalls, HttpMethods } from './http-calls';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -61,7 +63,30 @@ export class AppComponent {
   funcaoSoma = this.calculator.calcFn(OperationsEnum.ADD);
   funcaoExponenciacao = this.calculator.calcFn(OperationsEnum.SQUARE);
 
-  constructor() {
+  httpCalls = new HttpCalls();
+
+  constructor(private readonly http: HttpClient) {
+    this.httpCalls.call<HttpMethods.GET, any>(
+      (...args) => {
+        console.log('GET:', args.length);
+        return args;
+      },
+      {
+        url: 'https://www.example.com',
+        // body: { name: 'John Doe' },
+        options: { headers: { 'Content-Type': 'application/json' }}
+      }
+    );
+    this.httpCalls.call<HttpMethods.GET, any>(
+      this.http.get.bind(this.http)<any>,
+      {
+        url: 'https://www.example.com',
+        // body: { name: 'John Doe' },
+        options: { headers: { 'Content-Type': 'application/json' }}
+      }
+    ).subscribe((response: any) => {
+      console.log('Response:', response);
+    });
     console.log(this.calculatorFacade.calc(OperationsEnum.ADD, 1, 2));
     console.log(this.calculatorFacadeOmited.multiply(2, 3)); // Add is not available
   }
