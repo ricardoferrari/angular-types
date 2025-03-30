@@ -80,7 +80,7 @@ export class AppComponent {
     this.httpCalls.call<HttpMethods.GET, any>(
       this.http.get.bind(this.http)<any>,
       {
-        url: 'https://www.example.com',
+        url: 'http://localhost:4200/api/get_test.json',
         // body: { name: 'John Doe' },
         options: { headers: { 'Content-Type': 'application/json' }}
       }

@@ -44,7 +44,9 @@ interface IHttpCallInterface<M extends HttpMethods, R> {
 export class HttpCalls implements IHttpCallInterface<HttpMethods, HttpMethodsParametersMap> {
     call<M extends HttpMethods, T>(callback: CallbackInterfaceType<M>, args: ArgsInterface<M, HttpMethodsParametersMap[M]>): T {
       // Overrides the headers for a new request
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
       const options = { headers };
       const newArgs = { ...args, options };
       console.log('New args with overrides: ', newArgs);
